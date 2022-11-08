@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
   // find all products
   Product.findAll({
     include:[Category, {model: Tag, through: ProductTag}]
-
   }).then(dbUserData => {
     if (!dbUserData) {
       res.status(404).json({ message: 'No user found with this id' });
@@ -57,7 +56,6 @@ router.post('/', (req, res) => {
   */
   Product.create(req.body)
     .then((product) => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
